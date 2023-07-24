@@ -1,7 +1,5 @@
 const Router = {
 	init: () => {
-		console.log('init router');
-
 		app.dom.$$('a.navlink').forEach((link) => {
 			link.on('click', function (e) {
 				e.preventDefault();
@@ -13,6 +11,8 @@ const Router = {
 		});
 
 		window.addEventListener('popstate', function (e) {
+			console.log('popstate', e.state);
+
 			Router.go(e.state.route, false);
 		});
 
@@ -22,17 +22,19 @@ const Router = {
 	go: (route, addHistory = true) => {
 		console.log('go to route', route);
 
-		if (addHistory) history.pushState({}, route, route);
+		if (addHistory) history.pushState({ route }, route, route);
 
 		let page = null;
 
+		console.log('route', route);
+
 		switch (route) {
 			case '/':
-				page = document.createElement('h1');
-				page.textContent = 'Home';
+				page = document.createElement('menu-page');
+
 				break;
 			case '/order':
-				page = document.createElement('h1');
+				page = document.createElement('order-page');
 				page.textContent = 'Order';
 				break;
 
